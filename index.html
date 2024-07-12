@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Socket.IO Example</title>
+    <script src="/socket.io/socket.io.js"></script>
+    <script type="module">
+        import { io } from '/socket.io/socket.io.esm.min.js';
+
+        const socket = io();
+
+        window.sendMessage = () => {
+            const input = document.getElementById('messageInput');
+            socket.emit('chat message', input.value);
+            input.value = '';
+        }
+
+        socket.on('chat message', function(msg) {
+            const item = document.createElement('li');
+            item.textContent = msg;
+            document.getElementById('messages').appendChild(item);
+            window.scrollTo(0, document.body.scrollHeight);
+        });
+    </script>
+</head>
+<body>
+    <ul id="messages"></ul>
+    <input id="messageInput" autocomplete="off" /><button onclick="sendMessage()">Send</button>
+</body>
+</html>
